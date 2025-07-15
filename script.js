@@ -133,7 +133,7 @@ document.getElementById('download-btn').addEventListener('click', () => {
 });
 
 document.getElementById('mint-btn').addEventListener('click', () => {
-  alert('🕯️ Ritual minted to the void... (fake)');
+  alert('🕯️ Ritual minting to the void... (soon)');
 });
 
 window.addEventListener('load', () => {
