@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
+
+:root {
+  --ash: #cccccc;
+  --charcoal: #111111;
+  --font: 'IM Fell English', serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: var(--charcoal);
+  color: var(--ash);
+  font-family: var(--font);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.background-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 30px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  margin: 2rem 0 1rem;
+  text-align: center;
+  z-index: 1;
+  padding: 0 1rem;
+}
+
+#title {
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #ffffff33;
+  animation: flicker 2s infinite ease-in-out;
+  max-width: 100%;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; text-shadow: 0 0 8px #ffffff44; }
+  50% { opacity: 0.8; text-shadow: 0 0 4px #ffffff22; }
+}
+
+#canvas-container {
+  border: 2px dashed rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+  padding: 0.5rem;
+  margin: 1rem auto;
+  max-width: 95vw;
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: auto;
+}
+
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin: 1rem auto 2rem;
+  z-index: 1;
+  padding: 0 1rem;
+}
+
+.custom-button {
+  background: transparent;
+  border: 1px solid var(--ash);
+  color: var(--ash);
+  font-family: var(--font);
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  min-width: 120px;
+  text-align: center;
+}
+
+.custom-button:hover {
+  background: var(--ash);
+  color: var(--charcoal);
+}
+
+.mint {
+  border-style: dashed;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+footer {
+  margin-top: auto;
+  font-size: 0.8rem;
+  opacity: 0.4;
+  z-index: 1;
+  padding: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  #title {
+    font-size: 2rem;
+  }
+
+  .custom-button {
+    font-size: 0.9rem;
+    padding: 0.4rem 1rem;
+  }
+
+  #canvas-container {
+    max-width: 100vw;
+  }
+}
