@@ -11,8 +11,8 @@ function loadGlasses() {
     img.set({
       originX: 'center',
       originY: 'center',
-      left: canvas.getWidth() / 2,
-      top: canvas.getHeight() / 2,
+      left: 256,
+      top: 256,
       hasControls: true,
       hasBorders: true,
       cornerStyle: 'circle',
@@ -28,6 +28,28 @@ function loadGlasses() {
   });
 }
 
+function resizeCanvas() {
+  const container = document.getElementById('canvas-container');
+  const size = Math.min(window.innerWidth - 40, 512);
+  const scaleFactor = size / canvas.getWidth();
+
+  canvas.setWidth(size);
+  canvas.setHeight(size);
+  container.style.width = `${size}px`;
+
+  canvas.getObjects().forEach(obj => {
+    obj.scaleX *= scaleFactor;
+    obj.scaleY *= scaleFactor;
+    obj.left *= scaleFactor;
+    obj.top *= scaleFactor;
+    obj.setCoords();
+  });
+
+  canvas.renderAll();
+}
+
+window.addEventListener('resize', resizeCanvas);
+
 document.getElementById('upload-image').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -42,23 +64,16 @@ document.getElementById('upload-image').addEventListener('change', (e) => {
 
     fabric.Image.fromURL(f.target.result, function (img) {
       canvas.clear();
+      canvas.setWidth(512);
+      canvas.setHeight(512);
 
-      const imgWidth = img.width;
-      const imgHeight = img.height;
-
-      // Set canvas size exactly to image size
-      canvas.setWidth(imgWidth);
-      canvas.setHeight(imgHeight);
-
-      const container = document.getElementById('canvas-container');
-      container.style.width = `${imgWidth}px`;
-      container.style.height = `${imgHeight}px`;
-
+      const scale = Math.min(512 / img.width, 512 / img.height);
+      img.scale(scale);
       img.set({
-        originX: 'left',
-        originY: 'top',
-        left: 0,
-        top: 0,
+        originX: 'center',
+        originY: 'center',
+        left: 256,
+        top: 256,
         selectable: false,
         hasControls: false,
         hasBorders: false
@@ -69,6 +84,7 @@ document.getElementById('upload-image').addEventListener('change', (e) => {
       canvas.sendToBack(pfpImage);
 
       loadGlasses();
+      resizeCanvas();
     }, { crossOrigin: 'anonymous' });
   };
 
@@ -81,9 +97,12 @@ document.getElementById('upload-image').addEventListener('change', (e) => {
 
 document.getElementById('reset-btn').addEventListener('click', () => {
   canvas.clear();
+  canvas.setWidth(512);
+  canvas.setHeight(512);
   pfpImage = null;
   glassesImage = null;
   loadGlasses();
+  resizeCanvas();
 });
 
 document.getElementById('download-btn').addEventListener('click', () => {
@@ -118,8 +137,8 @@ document.getElementById('mint-btn').addEventListener('click', () => {
 });
 
 window.addEventListener('load', () => {
-  // Default canvas size
   canvas.setWidth(512);
   canvas.setHeight(512);
+  resizeCanvas();
   loadGlasses();
 });
